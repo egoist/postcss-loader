@@ -199,6 +199,10 @@ function loader (css, map, meta) {
         return null
       })
   }).catch((err) => {
+    if (err.message && err.message.includes('No PostCSS Config found')) {
+      return cb(null, css, map)
+    }
+
     if (err.file) {
       this.addDependency(err.file)
     }
