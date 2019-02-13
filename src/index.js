@@ -31,6 +31,7 @@ function loader (css, map, meta) {
   const file = this.resourcePath
 
   const sourceMap = options.sourceMap
+  const onConfigFile = options.onConfigFile
 
   Promise.resolve().then(() => {
     const length = Object.keys(options)
@@ -40,6 +41,7 @@ function loader (css, map, meta) {
           case 'ident':
           case 'config':
           case 'sourceMap':
+          case 'onConfigFile':
             return
           default:
             return option
@@ -82,6 +84,9 @@ function loader (css, map, meta) {
     }
 
     if (config.file) {
+      if (onConfigFile) {
+        onConfigFile(config.file, file)
+      }
       this.addDependency(config.file)
     }
 
